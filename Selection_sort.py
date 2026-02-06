@@ -1,0 +1,26 @@
+#create array
+def selection_sort(arr,size):
+    for i in range(0,size):
+        small=i
+        for j in range(i+1,size):
+            if(arr[j]<arr[small]):
+                small=j
+        temp=arr[i]
+        arr[i]=arr[small]
+        arr[small]=temp
+
+n=int(input("Enter the no of elements in array"))
+arr=[]
+
+for i in range(0,n):
+    a=int(input("Enter element to insert:"))
+    arr.append(a)
+
+size=len(arr)
+print("Unsorted array is:")
+print(arr)
+
+selection_sort(arr,size)
+
+print("Sorted array is:")
+print(arr)
