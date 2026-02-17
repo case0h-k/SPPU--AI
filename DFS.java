@@ -66,4 +66,5 @@ Enter edges (u v):
 8 7
 3 7
 Enter starting vertex: 1
+
 DFS Traversal: [1, 2, 5, 6, 3, 4, 8, 7]
