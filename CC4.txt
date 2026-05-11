@@ -1,0 +1,229 @@
+STEP 4 — Create a Custom Object
+
+Student Request
+Steps:
+In Setup search box:
+Search: Object Manager
+Click Object Manager
+Click Create
+Click Custom Object
+
+Fill:
+
+Field	Value
+Label	Student Request
+Plural Label	Student Requests
+Record Name	Request Number
+Data Type	Auto Number
+
+Then:
+
+Tick “Allow Reports”
+Tick “Track Activities”
+
+Click Save
+
+---------------STEP 5 — Create Fields
+
+Now we add columns to the object.
+
+Inside Student Request:
+
+Click Fields & Relationships
+Click New
+Field 1 — Student Name
+
+Choose:
+Data Type: Text
+Fill:
+Field Label: Student Name
+
+Click Next → Next → Save
+
+Field 2 — Issue Description
+Choose:
+Long Text Area
+Label:
+Issue Description
+
+Save.
+
+Field 3 — Priority
+Choose:
+Picklist
+Values:
+Low
+Medium
+High
+Critical
+
+Save.
+
+Field 4 — Status
+Choose:
+Picklist
+Values:
+Open
+In Progress
+Resolved
+Closed
+
+Default:
+Open
+
+Save.
+
+Field 5 — Email
+Choose:
+Email
+Label:
+Student Email
+
+Save.
+
+----------------STEP 6 — Create a Tab
+
+Without tabs, object won’t appear in app.
+
+Steps:
+Setup search:
+Tabs
+Click Tabs
+Under Custom Object Tabs:
+Click New
+Choose:
+Object: Student Request
+Select any tab style
+Save
+
+---------------STEP 7 — Create Lightning App
+
+Now create your actual application.
+
+Steps:
+Setup search:
+App Manager
+Click New Lightning App
+
+Fill:
+
+Field	        Value
+App Name	Student Help Desk
+
+Click Next.
+
+Add:
+
+Student Requests tab
+Reports
+Dashboards
+
+Save & Finish.
+
+-------------STEP 8 — Customize Page Layout
+
+Now make pages look clean.
+
+Go:
+Object Manager → Student Request → Page Layouts
+
+Arrange fields:
+
+Student Name
+Email
+Priority
+Status
+Description
+
+Drag and drop fields.
+
+Save.
+
+-------------STEP 9 — Add Validation Rule
+
+Validation rules prevent wrong data.
+
+Example:
+
+Email cannot be blank.
+Steps:
+Object Manager
+Student Request
+Validation Rules
+New
+
+Rule Name:
+
+Email_Required
+Formula: ISBLANK(Student_Email__c)
+
+Error:
+Email is mandatory
+
+Save.
+
+------------------STEP 10 — Create Automation Using Flow
+
+Now automation.
+
+Goal:
+If Priority = Critical
+→ Send email notification.
+
+Steps:
+Setup search:
+Flows
+Click New Flow
+Choose:
+Record-Triggered Flow
+Object:
+Student Request
+Trigger:
+When record created
+
+Add Condition:
+
+Priority = Critical
+
+Add Action:
+
+Send Email Alert
+
+Save and Activate.
+
+--------------STEP 11 — Create Reports
+
+Now analytics.
+
+Steps:
+Open App Launcher
+Reports
+New Report
+Select:
+Student Requests
+
+Create reports like:
+
+Requests by Status
+Critical Requests
+Resolved Tickets
+
+Save reports.
+
+STEP 12 — Create Dashboard
+
+Dashboard gives visual analytics.
+
+Steps:
+Dashboards
+New Dashboard
+
+Add charts:
+
+Pie Chart → Status
+Bar Chart → Priority
+Line Chart → Monthly Requests
+
+Save.
+
+

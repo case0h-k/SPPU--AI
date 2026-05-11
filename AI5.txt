@@ -1,0 +1,47 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Chatbot {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        HashMap<String, String> responses = new HashMap<>();
+
+        // Predefined responses
+        responses.put("hello", "Hello! How can I assist you today?");
+        responses.put("hi", "Hi there! How can I help you?");
+        responses.put("how are you", "I'm just a bot, but I'm functioning perfectly!");
+        responses.put("what is your name", "I am a simple customer service chatbot.");
+        responses.put("thanks", "You're welcome! Let me know if you need more help.");
+        responses.put("bye", "Goodbye! Have a great day!");
+
+        System.out.println("Chatbot: Hello! Type 'bye' to exit.");
+
+        while (true) {
+            System.out.print("You: ");
+            String userInput = scanner.nextLine().toLowerCase();
+
+            if (userInput.equals("bye")) {
+                System.out.println("Chatbot: " + responses.get("bye"));
+                break;
+            }
+
+            boolean responseFound = false;
+
+            for (String key : responses.keySet()) {
+                if (userInput.contains(key)) {
+                    System.out.println("Chatbot: " + responses.get(key));
+                    responseFound = true;
+                    break;
+                }
+            }
+
+            if (!responseFound) {
+                System.out.println("Chatbot: I'm sorry, I don't understand that. Can you try rephrasing?");
+            }
+        }
+
+        scanner.close();
+    }
+}

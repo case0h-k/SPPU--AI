@@ -1,0 +1,130 @@
+import java.util.*;
+
+public class NQueens {
+
+    private static boolean placeQueens(
+            int i,
+            int[] cols,
+            int[] leftDiagonal,
+            int[] rightDiagonal,
+            List<Integer> cur,
+            int n) {
+
+        // Base case
+        if (i == n) {
+            return true;
+        }
+
+        // Try placing queen in each column
+        for (int j = 0; j < n; j++) {
+
+            // Check if position is safe
+            if (cols[j] == 1
+                    || rightDiagonal[i + j] == 1
+                    || leftDiagonal[i - j + n - 1] == 1) {
+
+                continue;
+            }
+
+            // Place queen
+            cols[j] = 1;
+            rightDiagonal[i + j] = 1;
+            leftDiagonal[i - j + n - 1] = 1;
+
+            cur.add(j);
+
+            // Recursive call
+            if (placeQueens(
+                    i + 1,
+                    cols,
+                    leftDiagonal,
+                    rightDiagonal,
+                    cur,
+                    n)) {
+
+                return true;
+            }
+
+            // Backtracking
+            cur.remove(cur.size() - 1);
+
+            cols[j] = 0;
+            rightDiagonal[i + j] = 0;
+            leftDiagonal[i - j + n - 1] = 0;
+        }
+
+        return false;
+    }
+
+    private static List<List<String>> nQueen(int n) {
+
+        int[] cols = new int[n];
+
+        int[] leftDiagonal = new int[2 * n];
+
+        int[] rightDiagonal = new int[2 * n];
+
+        List<Integer> cur = new ArrayList<>();
+
+        List<List<String>> board = new ArrayList<>();
+
+        // Start placing queens
+        if (placeQueens(
+                0,
+                cols,
+                leftDiagonal,
+                rightDiagonal,
+                cur,
+                n)) {
+
+            for (int i = 0; i < n; i++) {
+
+                List<String> row =
+                        new ArrayList<>(
+                                Collections.nCopies(n, "."));
+
+                row.set(cur.get(i), "Q");
+
+                board.add(row);
+            }
+
+            return board;
+
+        } else {
+
+            return null;
+        }
+    }
+
+    private static void printBoard(
+            List<List<String>> board) {
+
+        if (board != null) {
+
+            for (List<String> row : board) {
+
+                System.out.println(
+                        String.join(" ", row));
+            }
+
+        } else {
+
+            System.out.println(
+                    "No solution exists.");
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print(
+                "Enter the number of queens: ");
+
+        int n = sc.nextInt();
+
+        List<List<String>> board = nQueen(n);
+
+        printBoard(board);
+    }
+}

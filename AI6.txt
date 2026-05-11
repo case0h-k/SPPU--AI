@@ -1,0 +1,229 @@
+package AI;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Patient {
+
+    String name;
+    int age;
+    String[] symptoms;
+    String diagnosis;
+    String doctor;
+    String medicine;
+
+    Patient(String name, int age, String[] symptoms) {
+        this.name = name;
+        this.age = age;
+        this.symptoms = symptoms;
+    }
+
+    void displayInfo() {
+
+        System.out.println("\nPatient Name: " + name);
+        System.out.println("Age: " + age);
+
+        System.out.print("Symptoms: ");
+
+        for (String symptom : symptoms) {
+            System.out.print(symptom + ", ");
+        }
+
+        System.out.println("\nDiagnosis: " +
+                (diagnosis != null ? diagnosis : "Pending"));
+
+        System.out.println("Assigned Doctor: " +
+                (doctor != null ? doctor : "Not Assigned"));
+
+        System.out.println("Suggested Medicine: " +
+                (medicine != null ? medicine : "Not Prescribed"));
+    }
+}
+
+class HospitalExpertSystem {
+
+    ArrayList<Patient> patients = new ArrayList<>();
+
+    void addPatient(Patient patient) {
+        patients.add(patient);
+        diagnosePatient(patient);
+    }
+
+    void diagnosePatient(Patient patient) {
+
+        int feverCount = 0;
+        int coughCount = 0;
+        int fatigueCount = 0;
+        int headacheCount = 0;
+        int stomachPainCount = 0;
+
+        // Count symptoms with flexibility
+        for (String symptom : patient.symptoms) {
+
+            String s = symptom.toLowerCase().trim();
+
+            if (s.contains("fever"))
+                feverCount++;
+
+            if (s.contains("cough") || s.contains("couph"))
+                coughCount++;
+
+            if (s.contains("fatigue"))
+                fatigueCount++;
+
+            if (s.contains("headache"))
+                headacheCount++;
+
+            if (s.contains("stomach") || s.contains("stomach pain"))
+                stomachPainCount++;
+        }
+
+        // Debugging symptom counts
+        System.out.println("Debug - Symptom Counts: Fever=" + feverCount
+                + ", Cough=" + coughCount
+                + ", Fatigue=" + fatigueCount
+                + ", Headache=" + headacheCount
+                + ", Stomach Pain=" + stomachPainCount);
+
+        // Rule-based diagnosis
+
+        if (feverCount > 0 && coughCount > 0 && fatigueCount > 0) {
+
+            patient.diagnosis = "Influenza (Flu)";
+            patient.doctor = "Dr. Sharma (General Physician)";
+            patient.medicine = "Paracetamol, Cough Syrup";
+
+        } else if (feverCount > 0 && headacheCount > 0) {
+
+            patient.diagnosis = "Migraine or Viral Fever";
+            patient.doctor = "Dr. Gupta (Neurologist)";
+            patient.medicine = "Ibuprofen";
+
+        } else if (stomachPainCount > 0 && fatigueCount > 0) {
+
+            patient.diagnosis = "Gastritis or Food Poisoning";
+            patient.doctor = "Dr. Patel (Gastroenterologist)";
+            patient.medicine = "Antacid, Hydration Fluids";
+
+        } else if (coughCount > 0 && fatigueCount > 0) {
+
+            patient.diagnosis = "Common Cold";
+            patient.doctor = "Dr. Singh (General Physician)";
+            patient.medicine = "Cough Drops, Rest";
+
+        } else if (feverCount > 0 && stomachPainCount > 0) {
+
+            patient.diagnosis = "Possible Stomach Infection or Fever";
+            patient.doctor = "Dr. Patel (Gastroenterologist)";
+            patient.medicine = "Antacid, Paracetamol";
+
+        } else if (coughCount > 0) {
+
+            patient.diagnosis = "Mild Cough";
+            patient.doctor = "Dr. Singh (General Physician)";
+            patient.medicine = "Cough Drops";
+
+        } else {
+
+            patient.diagnosis =
+                    "Unable to determine. Consult a specialist.";
+
+            patient.doctor = "Not Assigned";
+            patient.medicine = "Not Prescribed";
+        }
+    }
+
+    void displayAllPatients() {
+
+        if (patients.isEmpty()) {
+            System.out.println("No patients in the system.");
+            return;
+        }
+
+        System.out.println("\n--- All Patients in Hospital System ---");
+
+        for (Patient patient : patients) {
+            patient.displayInfo();
+        }
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        HospitalExpertSystem hospital =
+                new HospitalExpertSystem();
+
+        System.out.println(
+                "Welcome to Advanced Hospital Expert System");
+
+        System.out.println(
+                "-------------------------------------------");
+
+        while (true) {
+
+            System.out.println("\n1. Add New Patient");
+            System.out.println("2. Display All Patients");
+            System.out.println("3. Exit");
+
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+
+                case 1:
+
+                    System.out.print("Enter patient name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("Enter patient age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print(
+                            "Enter symptoms (comma-separated): ");
+
+                    String symptomsInput =
+                            scanner.nextLine();
+
+                    String[] symptoms =
+                            symptomsInput.split(",\\s*");
+
+                    Patient patient =
+                            new Patient(name, age, symptoms);
+
+                    hospital.addPatient(patient);
+
+                    System.out.println(
+                            "Patient added successfully!");
+
+                    patient.displayInfo();
+
+                    break;
+
+                case 2:
+
+                    hospital.displayAllPatients();
+                    break;
+
+                case 3:
+
+                    System.out.println(
+                            "Exiting system. Goodbye!");
+
+                    scanner.close();
+                    return;
+
+                default:
+
+                    System.out.println(
+                            "Invalid choice. Try again.");
+            }
+        }
+    }
+}

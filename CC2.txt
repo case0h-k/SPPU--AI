@@ -1,0 +1,18 @@
+sudo dmesg | grep kvm
+
+sudo install qemu-kvm libvirt-daemon-system virt-manager
+
+sudo adduser $User libvirt
+
+sudo systemctl enable libvirtd.service --now
+
+sudo systemctl start libvirtd
+sudo systemctl restart libvirtd
+sudo systemctl status libvirtd
+
+virt-manager
+
+sudo wget -O /var/lib/libvirt/images/ubuntu-24.04-live-server-amd64.iso \
+https://ubuntu.com
+
+wget https://cdimage.kali.org/current/kali-linux-2026.1-installer-amd64.iso

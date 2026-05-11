@@ -1,0 +1,95 @@
+import java.util.Scanner;
+
+public class Main{
+    static Scanner scanner= new Scanner(System.in);
+    
+    static void selection_sort(int n,int arr[])
+    {
+        for(int i=0;i<n-1;i++)
+        {
+            int idx=i;
+            for(int j=i+1;j<n;j++)
+            {
+                if(arr[idx]>arr[j])
+                {
+                    idx=j;
+                }
+            }
+            int temp=arr[idx];
+            arr[idx]=arr[i];
+            arr[i]=temp;
+        }
+        
+        System.out.println("Selection sort:");
+        for(int i=0;i<n;i++)
+        {
+            System.out.print(arr[i]+" ");
+        }
+    }
+    
+    static void prims()
+    {
+        System.out.println("Enter no of vertices");
+        int n=scanner.nextInt();
+        int graph[][]=new int[n+1][n+1];
+        
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+                System.out.println("Enter the weight for edge"+i+"->"+j+" ");
+                graph[i][j]=scanner.nextInt();
+            }
+        }
+        
+        int Edgecount=0;
+        int mincost=0;
+        boolean[] visited=new boolean[n+1];
+        visited[1]=true;
+        
+        while(Edgecount<n-1)
+        {
+            int min=Integer.MAX_VALUE;
+            int u=-1,v=-1;
+            
+            for(int i=1;i<=n;i++)
+            {
+                if(visited[i])
+                {
+                    for(int j=1;j<=n;j++)
+                    {
+                        if(visited[j]==false && graph[i][j]!=0 && graph[i][j]<min)
+                        {
+                            min=graph[i][j];
+                            u=i;
+                            v=j;
+                        }
+                    }
+                }
+            }
+            visited[v]=true;
+                System.out.println("MST edges are:"+u+"->"+v+"="+min);
+                mincost+=min;
+                Edgecount++;
+        }
+        System.out.println("The total cost is:"+mincost);
+        
+    }
+    
+    public static void main(String[] args)
+    {
+        System.out.println("Enter the no of elements:");
+        int n=scanner.nextInt();
+        
+        int arr[]=new int[n];
+        
+        for(int i=0;i<n;i++)
+        {
+            System.out.println("Enter element"+ i +":");
+            arr[i]=scanner.nextInt();
+        }
+        selection_sort(n,arr);
+        prims();
+        scanner.close();
+    }
+}

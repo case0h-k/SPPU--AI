@@ -1,0 +1,47 @@
+sudo apt update
+sudo apt upgrade -y
+
+sudo apt install awscli -y
+
+aws configure
+
+aws ec2 create-key-pair \
+--key-name my-key \
+--query 'KeyMaterial' \
+--output text> my-key.pem \
+
+aws ec2 create-security-group \
+--group-name my-sg \
+--description "My Security Group"
+
+aws ec2 authorize-security-group-ingress \
+    --group-name my-sg \
+    --protocol tcp \
+    --port 22 \
+    --cidr 0.0.0.0/0
+
+aws ec2 describe-images \
+    --owners amazon \
+    --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu--amd64-server-" \
+    --query 'Images[0].ImageId' \
+    --output text
+
+aws ec2 run-instances \
+    --image-id ami-XXXXXXXX \
+    --count 1 \
+    --instance-type t3.micro \
+    --key-name my-key \
+    --security-groups my-sg
+
+aws ec2 describe-instances \
+    --query 'Reservations[].Instances[].[InstanceId,PublicIpAddress]' \
+    --output table
+
+ssh -i my-key.pem ubuntu@YOUR_PUBLIC_IP
+
+aws ec2 describe-instances \
+  --query 'Reservations[].Instances[].[InstanceId,State.Name,PublicIpAddress]' \
+  --output table
+
+aws ec2 stop-instances --instance-ids YOUR_INSTANCE_ID
+aws ec2 terminate-instances --instance-ids YOUR_INSTANCE_ID

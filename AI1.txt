@@ -1,0 +1,85 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Queue;
+import java.util.LinkedList;
+
+public class Main{
+     static void dfs(int node,boolean vis[],ArrayList<ArrayList<Integer>> adj)
+    {
+        vis[node]=true;
+        System.out.print(node+"-");
+        
+        for(int it:adj.get(node))
+        {
+            if(vis[it]==false)
+            {
+                dfs(it,vis,adj);
+            }
+        }
+    }
+    
+    static void bfs(int node,boolean vis[], ArrayList<ArrayList<Integer>> adj)
+    {
+        Queue<Integer> q=new LinkedList<>();
+        vis[node]=true;
+        q.add(node);
+        
+        while(!q.isEmpty())
+        {
+            int n=q.poll();
+            System.out.print(n+"-");
+            
+            for(int i:adj.get(n))
+            {
+                if(!vis[i])
+                {
+                    vis[i]=true;
+                    q.add(i);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        Scanner scanner= new Scanner(System.in);
+        
+        System.out.println("Enter the no of nodes");
+        int V=scanner.nextInt();
+        System.out.println("Enyer no of edges");
+        int E=scanner.nextInt();
+        
+        boolean vis[]=new boolean[V+1];
+        vis[0]=true;
+        
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        
+        for(int i=0;i<V;i++)
+        {
+            adj.add(new ArrayList<>());
+        }
+        
+        for(int i=0;i<E;i++)
+        {
+            System.out.println("Enter two edges");
+            int u=scanner.nextInt();
+            int v=scanner.nextInt();
+            
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+        
+        //print adj
+        for(int i=0;i<V;i++)
+        {
+            System.out.println(i+"->"+adj.get(i));
+        }
+        
+        boolean vis2[] = new boolean[V+1];
+        System.out.println("DFS Traversal");
+        dfs(0,vis,adj);
+        System.out.println("BFS Traversal");
+        bfs(0,vis2,adj);
+        scanner.close();
+    }
+}
