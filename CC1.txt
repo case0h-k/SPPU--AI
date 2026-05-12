@@ -43,5 +43,9 @@ aws ec2 describe-instances \
   --query 'Reservations[].Instances[].[InstanceId,State.Name,PublicIpAddress]' \
   --output table
 
+mv ~/Downloads/ <pem-key-name>.pem ~/.ssh/
+chmod 400 ~/.ssh/<pem-keyname>.pem
+ssh -i ~/.ssh/<>.pem ec2-user@ <pubic-ip>
+
 aws ec2 stop-instances --instance-ids YOUR_INSTANCE_ID
 aws ec2 terminate-instances --instance-ids YOUR_INSTANCE_ID
